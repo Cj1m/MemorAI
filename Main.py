@@ -1,14 +1,13 @@
 import os
 from AIChatBot import AIChatBot
-from Brain.PineconeBrain import PineconeBrain
-from Brain.WeaviateBrain import WeaviateBrain
+from Brain.BrainSelector import BrainSelector
 
 from Config import OPENAI_API_KEY, PINECONE_API_KEY
 
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
 
-database = WeaviateBrain()
+database = BrainSelector().select()
 chatbot = AIChatBot(database)
 print("### Start up complete")
 print("### Enter your prompt")
