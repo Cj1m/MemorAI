@@ -19,4 +19,4 @@ while True:
         break
 
     response = chatbot.interact(user_input)
-    print("AI Response:", response)
+    print("MemorAI:", response)
