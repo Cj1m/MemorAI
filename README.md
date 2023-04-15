@@ -51,7 +51,7 @@ PINECONE_ENVIRONMENT = "your_pinecone_environment" # Only required for BRAIN_TYP
 WEAVIATE_URL = "your_weaviate_url"
 ```
 
-# Usage
+## Usage
 1. Run the main script:
 ```
 python Main.py
@@ -66,9 +66,9 @@ MemorAI: Hello Christopher, it's nice to meet you too! How may I assist you toda
 3. MemorAI will learn from conversation and will remember details between sessions.
 
 
-# License
+## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-# Acknowledgments
+## Acknowledgments
 OpenAI for providing the GPT API
 Weaviate and Pinecone for their vector database software and services.
