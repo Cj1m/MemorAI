@@ -27,11 +27,11 @@ class AIChatBot:
     def extract_facts_with_openai(self, prompt, response):
         facts = []
 
-        conversation = f"User: {prompt}\nAI: {response}"
+        conversation = f"User: {prompt}"
 
         openai_result = openai.Completion.create(
             engine=OPENAI_SUMMARIZATION_MODEL,
-            prompt=f"Summarize the following conversation into a list of semicolon separated key facts:\n{conversation}\n\nKey Facts (e.g FACT A KEY: FACT A VALUE; etc):",
+            prompt=f"Please convert the following monolog into independent concept pairings, encapsulating the entire context in each pairing. The concept pairings will be stored among unrelated memories and must make sense on their own. If there is no useful information to convert, do not return anything: '{conversation}' Example: For input text: User: My name is Bob. I was born March 2nd 2023. I like Back to the future and my favourite food is Pizza The expected output is: User's name: Bob; User's favourite food: Pizza; User's likes movie: Back to the Future; User DOB: 2nd March 2023 For input text: User: Hi there The expected output is: N/A\n\nAnswer:",
             max_tokens=100,
             n=1,
             stop=None,
