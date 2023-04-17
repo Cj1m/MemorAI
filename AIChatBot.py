@@ -10,7 +10,7 @@ class AIChatBot:
 
     def interact(self, prompt):
         stored_data = self.database.fetch_related_data(prompt)
-        context = self._build_context(stored_data, prompt)
+        context = self._build_context(stored_data)
         
         response = self._get_response_from_openai(context, prompt)
         self._update_short_term_memory("user", prompt)
@@ -22,7 +22,7 @@ class AIChatBot:
 
         return response
 
-    def _build_context(self, stored_data, prompt):
+    def _build_context(self, stored_data):
         context = [{"role": "system", "content": OPENAI_SYSTEM_PROMPT}] + stored_data + self.short_term_memory
         return context
 
