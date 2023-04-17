@@ -54,7 +54,7 @@ class WeaviateBrain(Brain):
             "class_name": "Fact",
             "properties": ["key", "value"]
         }
-        result = self.client.query.get(**query).with_near_vector(nearVector).with_limit(3).do()
+        result = self.client.query.get(**query).with_near_vector(nearVector).with_limit(10).do()
 
         related_data = []
         for item in result["data"]["Get"]["Fact"]:
