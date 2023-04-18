@@ -1,26 +1,21 @@
 import weaviate
 import openai
 from Brain.Brain import Brain
+from Config import WEAVIATE_URL
 
 class WeaviateBrain(Brain):
     def __init__(self):
-        config = self._load_config()
-        self.client = weaviate.Client(config)
+        self.client = weaviate.Client(WEAVIATE_URL)
         self.class_name = "Fact"
 
         if not self._class_exists():
             self._create_fact_class()
 
-    def _load_config(self):
-        config = "http://localhost:7777"
-
-        return config
-
-
     def _class_exists(self):
         return any(schema_class["class"] == self.class_name for schema_class in self.client.schema.get()["classes"])
 
     def _create_fact_class(self):
+        print(f"Creating Weaviate class {self.class_name}")
         fact_class = {
             "class": self.class_name,
             "properties": [
@@ -31,6 +26,10 @@ class WeaviateBrain(Brain):
                 {
                     "name": "value",
                     "dataType": ["string"],
+                },
+                {
+                    "name": "timestamp",
+                    "dataType": ["number"],
                 },
             ],
         }
@@ -52,15 +51,15 @@ class WeaviateBrain(Brain):
         }
         query = {
             "class_name": "Fact",
-            "properties": ["key", "value"]
+            "properties": ["key", "value", "timestamp"]
         }
         result = self.client.query.get(**query).with_near_vector(nearVector).with_limit(10).do()
-
         related_data = []
         for item in result["data"]["Get"]["Fact"]:
             key = item["key"]
             value = item["value"]
-            related_data.append({"role": "system", "content": f"Fact: '{key}' has the value '{value}'"})
+            timestamp = item["timestamp"]
+            related_data.append({"role": "system", "content": f"MEMORY: '{key}' has the value '{value}'. (timestamp: {timestamp})."})
         
         return related_data
 
@@ -70,7 +69,8 @@ class WeaviateBrain(Brain):
 
         fact_object = {
             "key": fact.key,
-            "value": fact.value
+            "value": fact.value,
+            "timestamp": fact.timestamp
         }
 
         try:
