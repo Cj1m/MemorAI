@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import ChatMessage from "./ChatMessage";
 
 const ChatHistory = ({ messages }) => {
@@ -9,6 +9,8 @@ const ChatHistory = ({ messages }) => {
       flexDirection="column"
       overflow="auto"
       flexGrow={1}
+      component={Paper}
+      p={2}
       paddingBottom={2}
     >
       {messages.map((message, index) => (
